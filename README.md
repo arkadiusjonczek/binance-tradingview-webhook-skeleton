@@ -16,4 +16,4 @@ Add the following message to your alert and set webhook url in the notifcations.
 {{ticker}},{{strategy.order.action}},{{strategy.order.price}}
 ```
 
-The {{strategy.order.price}} is optional but you can use it later to compare price of strategy with price of fulfilled order.
+The `{{strategy.order.price}}` is optional but you can use it later to compare price of strategy with price of fulfilled order.
