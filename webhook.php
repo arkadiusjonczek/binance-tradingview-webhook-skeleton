@@ -15,6 +15,7 @@ if (!in_array($_SERVER['REMOTE_ADDR'], $allowedIps)) {
 
 $input = file_get_contents('php://input');
 
+// explode string based on {{ticker}},{{strategy.order.action}},{{strategy.order.price}}
 $inputArray = explode(',', $input);
 $symbol     = $inputArray[0];
 $side       = $inputArray[1];
