@@ -1,5 +1,6 @@
 <?php
 
+// tradingview server ip's
 $allowedIps = [
   '52.89.214.238',
   '34.212.75.30',
@@ -15,9 +16,9 @@ if (!in_array($_SERVER['REMOTE_ADDR'], $allowedIps)) {
 $input = file_get_contents('php://input');
 
 $inputArray = explode(',', $input);
-$symbol = $inputArray[0];
-$side = $inputArray[1];
-$quantity = 0.001; // increase if you want but first test your strategy (risk management)
+$symbol     = $inputArray[0];
+$side       = $inputArray[1];
+$quantity   = 0.001; // increase if you want but first test your strategy (risk management)
 
 $data = [
   'symbol'     => $symbol,
@@ -31,11 +32,12 @@ $data = [
 $totalParams = \http_build_query($data);
 
 // add your binance api and secret key with permissions to trade
-$apiKey = '';
+$apiKey    = '';
 $secretKey = '';
 
+// build signature and add to request body
+// see https://binance-docs.github.io/apidocs/spot/en/#endpoint-security-type
 $signature = hash_hmac('sha256', $totalParams, $secretKey);
-
 $data['signature'] = $signature;
 
 $ch = curl_init();
@@ -49,4 +51,5 @@ curl_close($ch);
 
 $httpResponseCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 
-// do some more stuff if you want
+// do some more stuff if you want e.g. save order values in db for data analysis
+// but be beware of doing it after requests to reduce latency (slippage)
